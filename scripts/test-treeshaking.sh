@@ -1,33 +1,31 @@
-# For testA
-npx react-native bundle \
-  --platform android \
-  --dev false \
-  --entry-file test/treeShaking/testA.ts \
-  --bundle-output analysis/testA-bundle.js
+#!/bin/bash
 
-# For testB
-npx react-native bundle \
-  --platform android \
-  --dev false \
-  --entry-file test/treeShaking/testB.ts \
-  --bundle-output analysis/testB-bundle.js
+# Function to bundle and analyze
+analyze_bundle() {
+    local case_file=$1
+    local output_file="analysis/bundle-${case_file##*/}.js"
+    
+    echo "Testing: $case_file"
+    
+    # Bundle the code
+    npx react-native bundle \
+        --platform android \
+        --dev false \
+        --entry-file "$case_file" \
+        --bundle-output "$output_file"
+    
+    # Analysis
+    echo "Checking for unused exports in bundle..."
+    echo "ServiceA.useServiceB present: $(grep -c "useServiceB" "$output_file")"
+    echo "ServiceB.useServiceC present: $(grep -c "useServiceC" "$output_file")"
+    echo "ServiceC.doSomethingC present: $(grep -c "doSomethingC" "$output_file")"
+    echo "----------------------------------------"
+}
 
-  # For testC
-npx react-native bundle \
-  --platform android \
-  --dev false \
-  --entry-file test/treeShaking/testC.ts \
-  --bundle-output analysis/testC-bundle.js
+# Create analysis directory if it doesn't exist
+mkdir -p analysis
 
-
-grep "useServiceB" analysis/testA-bundle.js
-grep "useServiceC" analysis/testA-bundle.js
-grep "doSomethingC" analysis/testA-bundle.js
-
-grep "useServiceA" analysis/testB-bundle.js
-grep "useServiceC" analysis/testB-bundle.js
-grep "doSomethingC" analysis/testB-bundle.js
-
-grep "useServiceA" analysis/testC-bundle.js
-grep "useServiceB" analysis/testC-bundle.js
-grep "doSomethingB" analysis/testC-bundle.js
+# Run analysis for each test case
+for case_file in test/treeshaking-cases/*.ts; do
+    analyze_bundle "$case_file"
+done
