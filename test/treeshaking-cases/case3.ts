@@ -1,2 +1,2 @@
-import { doSomethingA, useServiceB } from '../../libs/ServiceA';
-console.log(doSomethingA(), useServiceB());
+import { useServiceC } from '../../libs/ServiceB';
+console.log(useServiceC));
