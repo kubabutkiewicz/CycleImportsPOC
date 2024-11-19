@@ -25,6 +25,10 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import { useServiceB } from './libs/ServiceA';
+import { useServiceA } from './libs/ServiceC';
+import { useServiceC } from './libs/ServiceB';
+
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
@@ -57,6 +61,10 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+
+  console.log(useServiceA());
+  console.log(useServiceB());
+  console.log(useServiceC());
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
