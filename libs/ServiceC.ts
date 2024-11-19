@@ -1,4 +1,4 @@
-import * as ServiceA from './ServiceA';
+import {doSomethingA} from './ServiceA';
 
 export function doSomethingC(): string {
     const startTime = global.performance.now();
@@ -10,7 +10,7 @@ export function doSomethingC(): string {
 
 export function useServiceA(): string {
     const startTime = global.performance.now();
-    const result = ServiceA.doSomethingA();
+    const result = doSomethingA();
     const endTime = global.performance.now();
     console.log(`ServiceC->ServiceA Call took: ${endTime - startTime}ms`);
     return result;
