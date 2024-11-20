@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import * as ServiceA from './libs/ServiceA';
-import * as ServiceB from './libs/ServiceB';
-import * as ServiceC from './libs/ServiceC';
+import { ServiceA, ServiceB, ServiceC } from './libs';
+
 export default function App() {
   return (
     <View style={styles.container}>

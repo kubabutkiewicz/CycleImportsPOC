@@ -1,4 +1,4 @@
-import * as ServiceA from '../../libs/ServiceA';
+import {ServiceA} from '../../libs';
 
 // Only using doSomethingA
 console.log(ServiceA.doSomethingA());

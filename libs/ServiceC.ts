@@ -1,5 +1,4 @@
-import * as ServiceA from './ServiceA';
-import * as ServiceB from './ServiceB';
+import {ServiceA, ServiceB} from './index';
 
 function doSomethingC(): number {
     const startTime = global.performance.now();
