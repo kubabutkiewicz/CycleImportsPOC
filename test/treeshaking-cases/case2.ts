@@ -1,4 +1,4 @@
-import {useServiceB} from '../../libs/ServiceA';
+import {complexChainC} from '../../libs/ServiceC';
 
-// Using ServiceA's useServiceB which imports ServiceB
-console.log(useServiceB());
+// Using ServiceC's complexChainC which imports ServiceA and ServiceB
+console.log(complexChainC());
