@@ -43,4 +43,33 @@ yarn analyze-ios
 | Android  | 1.7 MB      | 1.7 MB       | 1.7 MB       |
 | Web      | 0.391 MB    | 0.388 MB     | 0.390 MB     |
 
+### Tree Shaking Analysis Results
+
+#### Main Branch Results
+
+Methods with unexpected presence counts (ideal count should be 1):
+
+**Case 1:**
+- ServiceA.doSomethingA: 3 instances
+- ServiceC.testCircularC2: 3 instances
+- Most other methods: 2 instances
+- ServiceC.complexChainC: 1 instance (optimal)
+
+**Case 2:**
+- ServiceC.testCircularC2: 3 instances
+- All other methods: 2 instances
+
+**Case 3:**
+- ServiceB.complexChainB: 3 instances
+- ServiceC.testCircularC2: 3 instances
+- Most other methods: 2 instances
+- ServiceC.complexChainC: 1 instance (optimal)
+
+### Tree Shaking Effectiveness
+
+| Platform | Main Branch | Fix-1 Branch | Fix-2 Branch |
+|----------|-------------|--------------|--------------|
+| General  | Suboptimal - Most methods appear 2-3 times | TBD | TBD |
+| Web      | TBD         | TBD          | TBD          |
+
 
