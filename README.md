@@ -127,8 +127,20 @@ Methods with unexpected presence counts (ideal count should be 1):
   - ServiceB.ts: 1 KiB (reduced)
   - ServiceC.ts: 1.01 KiB (reduced)
 
-Common characteristics:
-- Both branches exceed recommended size limit (244 KiB)
+#### Fix-2 Branch Web Results
+- All methods consistently appear exactly once across all test cases
+- Bundle sizes are between main and fix-1:
+  - Case 1: 399,229 bytes (~390 KiB)
+  - Case 2: 399,230 bytes (~390 KiB)
+  - Case 3: 399,230 bytes (~390 KiB)
+- Additional index.ts file (1.1 KiB)
+- Slightly larger service files:
+  - ServiceA.ts: 1.02 KiB
+  - ServiceB.ts: 1.02 KiB
+  - ServiceC.ts: 1.02 KiB
+
+Common characteristics across all branches:
+- All branches exceed recommended size limit (244 KiB)
 - Perfect tree shaking (all methods appear exactly once)
 - Consistent bundle sizes across test cases
 
@@ -137,6 +149,6 @@ Common characteristics:
 | Platform | Main Branch | Fix-1 Branch | Fix-2 Branch |
 |----------|-------------|--------------|--------------|
 | General  | Suboptimal - Most methods appear 2-3 times | Mixed - Core methods 3-4 times, but better circular handling | Similar to Main Branch |
-| Web      | Optimal - All methods appear once (392 KiB) | Optimal - All methods appear once (389 KiB) | TBD |
+| Web      | Optimal - All methods appear once (392 KiB) | Optimal - All methods appear once (389 KiB) | Optimal - All methods appear once (390 KiB) |
 
 
