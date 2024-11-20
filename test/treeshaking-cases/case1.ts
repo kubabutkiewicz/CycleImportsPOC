@@ -1,2 +1,4 @@
-import { doSomethingA } from '../../libs/ServiceA';
-console.log(doSomethingA());
+import * as ServiceA from '../../libs/ServiceA';
+
+// Only using doSomethingA
+console.log(ServiceA.doSomethingA());

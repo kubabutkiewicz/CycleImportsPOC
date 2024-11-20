@@ -1,2 +1,4 @@
-import { useServiceC } from '../../libs/ServiceB';
-console.log(useServiceC);
+import * as ServiceB from '../../libs/ServiceB';
+
+// Using ServiceB's useServiceC which imports ServiceC
+console.log(ServiceB.useServiceC());
