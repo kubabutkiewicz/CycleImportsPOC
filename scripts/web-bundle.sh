@@ -3,7 +3,7 @@
 # Create the output directory if it doesn't exist
 mkdir -p analysis
 
-# Generate the production web bundle with --config false to ignore webpack.config.js
+# Generate the production web bundle 
 npx webpack \
   --mode production \
   --output-path analysis \
