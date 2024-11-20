@@ -111,17 +111,32 @@ Methods with unexpected presence counts (ideal count should be 1):
 
 #### Main Branch Web Results
 - All methods consistently appear exactly once across all test cases
-- Bundle sizes are consistent:
+- Bundle sizes:
   - Case 1: 401,280 bytes (~392 KiB)
   - Case 2: 401,281 bytes (~392 KiB)
   - Case 3: 401,281 bytes (~392 KiB)
-- Webpack warnings indicate bundles exceed recommended size (244 KiB)
+
+#### Fix-1 Branch Web Results
+- All methods consistently appear exactly once across all test cases
+- Bundle sizes are slightly smaller than main branch:
+  - Case 1: 397,855 bytes (~389 KiB)
+  - Case 2: 397,856 bytes (~389 KiB)
+  - Case 3: 397,856 bytes (~389 KiB)
+- Reduced module sizes:
+  - ServiceA.ts: 1 KiB (reduced)
+  - ServiceB.ts: 1 KiB (reduced)
+  - ServiceC.ts: 1.01 KiB (reduced)
+
+Common characteristics:
+- Both branches exceed recommended size limit (244 KiB)
+- Perfect tree shaking (all methods appear exactly once)
+- Consistent bundle sizes across test cases
 
 ### Tree Shaking Effectiveness
 
 | Platform | Main Branch | Fix-1 Branch | Fix-2 Branch |
 |----------|-------------|--------------|--------------|
 | General  | Suboptimal - Most methods appear 2-3 times | Mixed - Core methods 3-4 times, but better circular handling | Similar to Main Branch |
-| Web      | Optimal - All methods appear exactly once | TBD | TBD |
+| Web      | Optimal - All methods appear once (392 KiB) | Optimal - All methods appear once (389 KiB) | TBD |
 
 
