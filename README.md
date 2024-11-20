@@ -40,7 +40,7 @@ yarn analyze-ios
 
 | Platform | Main Branch | Fix-1 Branch | Fix-2 Branch |
 |----------|-------------|--------------|--------------|
-| Android  | 1.7 MB      | TBD          | TBD          |
+| Android  | 1.7 MB      | 1.7 MB       | 1.7 MB       |
 | Web      | TBD         | TBD          | TBD          |
 
 
