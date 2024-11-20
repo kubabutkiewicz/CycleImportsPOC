@@ -65,11 +65,34 @@ Methods with unexpected presence counts (ideal count should be 1):
 - Most other methods: 2 instances
 - ServiceC.complexChainC: 1 instance (optimal)
 
+#### Fix-1 Branch Results
+
+**Case 1:**
+- ServiceA.doSomethingA: 4 instances
+- ServiceB.doSomethingB: 3 instances
+- ServiceC.doSomethingC: 3 instances
+- Some methods: 2 instances
+- Most circular methods: 1 instance (improved)
+
+**Case 2:**
+- ServiceA.doSomethingA: 3 instances
+- ServiceB.doSomethingB: 3 instances
+- ServiceC.doSomethingC: 3 instances
+- Some methods: 2 instances
+- Most circular methods: 1 instance (improved)
+
+**Case 3:**
+- ServiceA.doSomethingA: 3 instances
+- ServiceB.doSomethingB: 3 instances
+- ServiceC.doSomethingC: 3 instances
+- Some methods: 2 instances
+- Most circular methods: 1 instance (improved)
+
 ### Tree Shaking Effectiveness
 
 | Platform | Main Branch | Fix-1 Branch | Fix-2 Branch |
 |----------|-------------|--------------|--------------|
-| General  | Suboptimal - Most methods appear 2-3 times | TBD | TBD |
+| General  | Suboptimal - Most methods appear 2-3 times | Mixed - Core methods 3-4 times, but better circular handling | TBD |
 | Web      | TBD         | TBD          | TBD          |
 
 
