@@ -88,11 +88,40 @@ Methods with unexpected presence counts (ideal count should be 1):
 - Some methods: 2 instances
 - Most circular methods: 1 instance (improved)
 
+#### Fix-2 Branch Results
+(Results very similar to main branch)
+
+**Case 1:**
+- ServiceA.doSomethingA: 3 instances
+- ServiceC.testCircularC2: 3 instances
+- Most other methods: 2 instances
+- ServiceC.complexChainC: 1 instance (optimal)
+
+**Case 2:**
+- ServiceC.testCircularC2: 3 instances
+- All other methods: 2 instances
+
+**Case 3:**
+- ServiceB.complexChainB: 3 instances
+- ServiceC.testCircularC2: 3 instances
+- Most other methods: 2 instances
+- ServiceC.complexChainC: 1 instance (optimal)
+
+### Web Bundle Analysis
+
+#### Main Branch Web Results
+- All methods consistently appear exactly once across all test cases
+- Bundle sizes are consistent:
+  - Case 1: 401,280 bytes (~392 KiB)
+  - Case 2: 401,281 bytes (~392 KiB)
+  - Case 3: 401,281 bytes (~392 KiB)
+- Webpack warnings indicate bundles exceed recommended size (244 KiB)
+
 ### Tree Shaking Effectiveness
 
 | Platform | Main Branch | Fix-1 Branch | Fix-2 Branch |
 |----------|-------------|--------------|--------------|
-| General  | Suboptimal - Most methods appear 2-3 times | Mixed - Core methods 3-4 times, but better circular handling | TBD |
-| Web      | TBD         | TBD          | TBD          |
+| General  | Suboptimal - Most methods appear 2-3 times | Mixed - Core methods 3-4 times, but better circular handling | Similar to Main Branch |
+| Web      | Optimal - All methods appear exactly once | TBD | TBD |
 
 
