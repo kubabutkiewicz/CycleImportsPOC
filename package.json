@@ -10,11 +10,15 @@
     "test": "jest",
     "analyze-android": "./scripts/android-bundle.sh",
     "analyze-ios": "./scripts/ios-bundle.sh",
-    "test-treeshaking": "./scripts/test-treeshaking.sh",  
+    "analyze-web": "./scripts/web-bundle.sh",
+    "test-treeshaking": "./scripts/test-treeshaking.sh",
     "web": "webpack serve --mode development",
-    "build:web": "webpack --mode production"
+    "build:web": "webpack --mode production",
+    "test-treeshaking-web": "./scripts/test-treeshaking-web.sh"
   },
   "dependencies": {
+    "@expo/metro-config": "^0.19.4",
+    "expo-asset": "^11.0.1",
     "react": "18.3.1",
     "react-native": "0.76.2",
     "react-native-web": "^0.19.13"

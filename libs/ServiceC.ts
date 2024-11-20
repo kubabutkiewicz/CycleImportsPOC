@@ -1,17 +1,37 @@
 import * as ServiceA from './ServiceA';
+import * as ServiceB from './ServiceB';
 
-export function doSomethingC(): string {
+function doSomethingC(): number {
     const startTime = global.performance.now();
-    const result = 'Service C is doing something';
+    let result = 0;
+    for (let i = 0; i < 1e7; i++) {
+        result += Math.sqrt(i);
+    }
     const endTime = global.performance.now();
     console.log(`ServiceC Operation took: ${endTime - startTime}ms`);
     return result;
 }
 
-export function useServiceA(): string {
+function useServiceA(): number {
     const startTime = global.performance.now();
     const result = ServiceA.doSomethingA();
     const endTime = global.performance.now();
     console.log(`ServiceC->ServiceA Call took: ${endTime - startTime}ms`);
     return result;
 }
+
+function testCircularC1(): string {
+    return ServiceB.testCircularB1();
+}
+
+function testCircularC2(): string {
+    return ServiceA.complexChainA();
+}
+
+function complexChainC(): string {
+    const result1 = ServiceA.useServiceB();
+    const result2 = ServiceB.complexChainB();
+    return `Chain C: ${result1} + ${result2}`;
+}
+
+export { doSomethingC, useServiceA, testCircularC1, testCircularC2, complexChainC };
