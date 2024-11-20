@@ -45,7 +45,8 @@ yarn analyze-ios
 
 ### Tree Shaking Analysis Results
 
-#### Main Branch Results
+#### Main Branch & Fix-1 Branch Results
+(Both branches show identical results)
 
 Methods with unexpected presence counts (ideal count should be 1):
 
@@ -69,7 +70,7 @@ Methods with unexpected presence counts (ideal count should be 1):
 
 | Platform | Main Branch | Fix-1 Branch | Fix-2 Branch |
 |----------|-------------|--------------|--------------|
-| General  | Suboptimal - Most methods appear 2-3 times | TBD | TBD |
+| General  | Suboptimal - Most methods appear 2-3 times | Same as Main Branch | TBD |
 | Web      | TBD         | TBD          | TBD          |
 
 
