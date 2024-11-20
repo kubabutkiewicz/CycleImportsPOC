@@ -7,9 +7,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>React Native Web App</Text>
-      <Text>{ServiceA.doSomethingA()}</Text>
-      <Text>{ServiceB.doSomethingB()}</Text>
-      <Text>{ServiceC.doSomethingC()}</Text>
+      <Text>{ServiceA.useServiceB()}</Text>
+      <Text>{ServiceB.useServiceC()}</Text>
+      <Text>{ServiceC.useServiceA()}</Text>
     </View>
   );
 }
