@@ -30,7 +30,7 @@ function testCircularA2(): string {
 function complexChainA(): string {
     const result1 = ServiceB.useServiceC();
     const result2 = ServiceC.testCircularC2();
-    return `Chain A: ${result1} + $ {result2}`;
+    return `Chain A: ${result1} + ${result2}`;
 }
 
 export { doSomethingA, useServiceB, testCircularA1, testCircularA2, complexChainA };

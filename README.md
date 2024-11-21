@@ -1,79 +1,154 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Cycle Imports POC Performance Analysis
 
-# Getting Started
+This repository contains performance analysis and bundle size comparisons across different optimization approaches.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Performance Benchmarks
 
-## Step 1: Start the Metro Server
+Average execution time across 5 runs for each service:
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+| Service   | Main Branch | Fix-1 Branch | Fix-2 Branch |
+|-----------|-------------|--------------|--------------|
+| ServiceA  | 297.109 ms  | 298.146 ms   | 297.422 ms  |
+| ServiceB  | 296.827 ms  | 297.660 ms   | 296.920 ms  |
+| ServiceC  | 297.310 ms  | 296.583 ms   | 298.102 ms  |
 
-To start Metro, run the following command from the _root_ of your React Native project:
+## Bundle Size Analysis
 
-```bash
-# using npm
-npm start
+To analyze bundle sizes across different platforms, run the following commands:
 
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
+### Android Bundle Analysis
 
 ```bash
 # using npm
-npm run android
+npm run analyze-android
 
 # OR using Yarn
-yarn android
+yarn analyze-android
 ```
 
-### For iOS
+### iOS Bundle Analysis
 
 ```bash
 # using npm
-npm run ios
+npm run analyze-ios
 
 # OR using Yarn
-yarn ios
+yarn analyze-ios
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+### Bundle Size Comparison
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+| Platform | Main Branch | Fix-1 Branch | Fix-2 Branch |
+|----------|-------------|--------------|--------------|
+| Android  | 1.7 MB      | 1.7 MB       | 1.7 MB       |
+| Web      | 0.391 MB    | 0.388 MB     | 0.390 MB     |
 
-## Step 3: Modifying your App
+### Tree Shaking Analysis Results
 
-Now that you have successfully run the app, let's modify it.
+#### Main Branch Results
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+Methods with unexpected presence counts (ideal count should be 1):
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+**Case 1:**
+- ServiceA.doSomethingA: 3 instances
+- ServiceC.testCircularC2: 3 instances
+- Most other methods: 2 instances
+- ServiceC.complexChainC: 1 instance (optimal)
 
-## Congratulations! :tada:
+**Case 2:**
+- ServiceC.testCircularC2: 3 instances
+- All other methods: 2 instances
 
-You've successfully run and modified your React Native App. :partying_face:
+**Case 3:**
+- ServiceB.complexChainB: 3 instances
+- ServiceC.testCircularC2: 3 instances
+- Most other methods: 2 instances
+- ServiceC.complexChainC: 1 instance (optimal)
 
-### Now what?
+#### Fix-1 Branch Results
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+**Case 1:**
+- ServiceA.doSomethingA: 4 instances
+- ServiceB.doSomethingB: 3 instances
+- ServiceC.doSomethingC: 3 instances
+- Some methods: 2 instances
+- Most circular methods: 1 instance (improved)
 
-# Troubleshooting
+**Case 2:**
+- ServiceA.doSomethingA: 3 instances
+- ServiceB.doSomethingB: 3 instances
+- ServiceC.doSomethingC: 3 instances
+- Some methods: 2 instances
+- Most circular methods: 1 instance (improved)
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+**Case 3:**
+- ServiceA.doSomethingA: 3 instances
+- ServiceB.doSomethingB: 3 instances
+- ServiceC.doSomethingC: 3 instances
+- Some methods: 2 instances
+- Most circular methods: 1 instance (improved)
 
-# Learn More
+#### Fix-2 Branch Results
+(Results very similar to main branch)
 
-To learn more about React Native, take a look at the following resources:
+**Case 1:**
+- ServiceA.doSomethingA: 3 instances
+- ServiceC.testCircularC2: 3 instances
+- Most other methods: 2 instances
+- ServiceC.complexChainC: 1 instance (optimal)
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+**Case 2:**
+- ServiceC.testCircularC2: 3 instances
+- All other methods: 2 instances
+
+**Case 3:**
+- ServiceB.complexChainB: 3 instances
+- ServiceC.testCircularC2: 3 instances
+- Most other methods: 2 instances
+- ServiceC.complexChainC: 1 instance (optimal)
+
+### Web Bundle Analysis
+
+#### Main Branch Web Results
+- All methods consistently appear exactly once across all test cases
+- Bundle sizes:
+  - Case 1: 401,280 bytes (~392 KiB)
+  - Case 2: 401,281 bytes (~392 KiB)
+  - Case 3: 401,281 bytes (~392 KiB)
+
+#### Fix-1 Branch Web Results
+- All methods consistently appear exactly once across all test cases
+- Bundle sizes are slightly smaller than main branch:
+  - Case 1: 397,855 bytes (~389 KiB)
+  - Case 2: 397,856 bytes (~389 KiB)
+  - Case 3: 397,856 bytes (~389 KiB)
+- Reduced module sizes:
+  - ServiceA.ts: 1 KiB (reduced)
+  - ServiceB.ts: 1 KiB (reduced)
+  - ServiceC.ts: 1.01 KiB (reduced)
+
+#### Fix-2 Branch Web Results
+- All methods consistently appear exactly once across all test cases
+- Bundle sizes are between main and fix-1:
+  - Case 1: 399,229 bytes (~390 KiB)
+  - Case 2: 399,230 bytes (~390 KiB)
+  - Case 3: 399,230 bytes (~390 KiB)
+- Additional index.ts file (1.1 KiB)
+- Slightly larger service files:
+  - ServiceA.ts: 1.02 KiB
+  - ServiceB.ts: 1.02 KiB
+  - ServiceC.ts: 1.02 KiB
+
+Common characteristics across all branches:
+- All branches exceed recommended size limit (244 KiB)
+- Perfect tree shaking (all methods appear exactly once)
+- Consistent bundle sizes across test cases
+
+### Tree Shaking Effectiveness
+
+| Platform | Main Branch | Fix-1 Branch | Fix-2 Branch |
+|----------|-------------|--------------|--------------|
+| General  | Suboptimal - Most methods appear 2-3 times | Mixed - Core methods 3-4 times, but better circular handling | Similar to Main Branch |
+| Web      | Optimal - All methods appear once (392 KiB) | Optimal - All methods appear once (389 KiB) | Optimal - All methods appear once (390 KiB) |
+
+
