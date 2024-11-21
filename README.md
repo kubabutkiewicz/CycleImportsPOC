@@ -140,7 +140,6 @@ Methods with unexpected presence counts (ideal count should be 1):
   - ServiceC.ts: 1.02 KiB
 
 Common characteristics across all branches:
-- All branches exceed recommended size limit (244 KiB)
 - Perfect tree shaking (all methods appear exactly once)
 - Consistent bundle sizes across test cases
 
