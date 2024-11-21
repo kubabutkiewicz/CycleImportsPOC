@@ -1,5 +1,5 @@
 import {doSomethingB, useServiceC} from './ServiceB';
-import {doSomethingC} from './ServiceC';
+import {doSomethingC, testCircularC2} from './ServiceC';
 
 function doSomethingA(): number {
     const startTime = global.performance.now();
@@ -30,7 +30,7 @@ function testCircularA2(): number {
 
 function complexChainA(): number {
     const result1 = useServiceC();
-    const result2 = testCircularA2();
+    const result2 = testCircularC2();
     return result1 + result2;
 }
 
